@@ -15,6 +15,13 @@ public struct wl_message
 	public char8* name;
 	public char8* signature;
 	public wl_interface** types;
+
+	public this(char8* name, char8* signature, wl_interface** types)
+	{
+		this.name = name;
+		this.signature = signature;
+		this.types = types;
+	}
 }
 
 [CRepr]
@@ -26,6 +33,16 @@ public struct wl_interface
 	public wl_message* methods;
 	public int event_count;
 	public wl_message* events;
+
+	public this(StringView name, int version, int method_count, wl_message* methods, int event_count, wl_message* events)
+	{
+		this.name = name.Ptr;
+		this.version = version;
+		this.method_count = method_count;
+		this.methods = methods;
+		this.event_count = event_count;
+		this.events = events;
+	}
 }
 
 [CRepr]
@@ -68,7 +85,6 @@ public enum wl_iterator_result
 }
 
 public struct wl_proxy;
-public struct wl_display;
 public struct wl_event_queue;
 
 
@@ -144,7 +160,7 @@ class Wayland
 	[Import("wayland-client.so"), CLink]
 	public static extern char8* wl_proxy_get_class(wl_proxy *proxy);
 	[Import("wayland-client.so"), CLink]
-	public static extern wl_display* wl_proxy_get_display(wl_proxy *proxy);
+	public static extern wl_display wl_proxy_get_display(wl_proxy *proxy);
 	[Import("wayland-client.so"), CLink]
 	public static extern void wl_proxy_set_queue(wl_proxy *proxy, wl_event_queue *queue);
 	[Import("wayland-client.so"), CLink]
@@ -158,45 +174,45 @@ class Wayland
 
 	// wl_display
 	[Import("wayland-client.so"), CLink]
-	public static extern wl_display* wl_display_connect(char8 *name);
+	public static extern wl_display wl_display_connect(char8 *name);
 	[Import("wayland-client.so"), CLink]
-	public static extern wl_display* wl_display_connect_to_fd(int fd);
+	public static extern wl_display wl_display_connect_to_fd(int fd);
 	[Import("wayland-client.so"), CLink]
-	public static extern void wl_display_disconnect(wl_display *display);
+	public static extern void wl_display_disconnect(wl_display display);
 	[Import("wayland-client.so"), CLink]
-	public static extern int wl_display_get_fd(wl_display *display);
+	public static extern int wl_display_get_fd(wl_display display);
 	[Import("wayland-client.so"), CLink]
-	public static extern int wl_display_dispatch(wl_display *display);
+	public static extern int wl_display_dispatch(wl_display display);
 	[Import("wayland-client.so"), CLink]
-	public static extern int wl_display_dispatch_queue(wl_display *display, wl_event_queue *queue);
+	public static extern int wl_display_dispatch_queue(wl_display display, wl_event_queue *queue);
 	[Import("wayland-client.so"), CLink]
-	public static extern int wl_display_dispatch_queue_pending(wl_display *display, wl_event_queue *queue);
+	public static extern int wl_display_dispatch_queue_pending(wl_display display, wl_event_queue *queue);
 	[Import("wayland-client.so"), CLink]
-	public static extern int wl_display_dispatch_pending(wl_display *display);
+	public static extern int wl_display_dispatch_pending(wl_display display);
 	[Import("wayland-client.so"), CLink]
-	public static extern int wl_display_get_error(wl_display *display);
+	public static extern int wl_display_get_error(wl_display display);
 	[Import("wayland-client.so"), CLink]
-	public static extern uint32 wl_display_get_protocol_error(wl_display *display, wl_interface **iface, uint32 *id);
+	public static extern uint32 wl_display_get_protocol_error(wl_display display, wl_interface **iface, uint32 *id);
 	[Import("wayland-client.so"), CLink]
-	public static extern int wl_display_flush(wl_display *display);
+	public static extern int wl_display_flush(wl_display display);
 	[Import("wayland-client.so"), CLink]
-	public static extern int wl_display_roundtrip_queue(wl_display *display, wl_event_queue *queue);
+	public static extern int wl_display_roundtrip_queue(wl_display display, wl_event_queue *queue);
 	[Import("wayland-client.so"), CLink]
-	public static extern int wl_display_roundtrip(wl_display *display);
+	public static extern int wl_display_roundtrip(wl_display display);
 	[Import("wayland-client.so"), CLink]
-	public static extern wl_event_queue* wl_display_create_queue(wl_display *display);
+	public static extern wl_event_queue* wl_display_create_queue(wl_display display);
 	[Import("wayland-client.so"), CLink]
-	public static extern wl_event_queue* wl_display_create_queue_with_name(wl_display *display, char8 *name);
+	public static extern wl_event_queue* wl_display_create_queue_with_name(wl_display display, char8 *name);
 	[Import("wayland-client.so"), CLink]
-	public static extern int wl_display_prepare_read_queue(wl_display *display, wl_event_queue *queue);
+	public static extern int wl_display_prepare_read_queue(wl_display display, wl_event_queue *queue);
 	[Import("wayland-client.so"), CLink]
-	public static extern int wl_display_prepare_read(wl_display *display);
+	public static extern int wl_display_prepare_read(wl_display display);
 	[Import("wayland-client.so"), CLink]
-	public static extern void wl_display_cancel_read(wl_display *display);
+	public static extern void wl_display_cancel_read(wl_display display);
 	[Import("wayland-client.so"), CLink]
-	public static extern int wl_display_read_events(wl_display *display);
+	public static extern int wl_display_read_events(wl_display display);
 	[Import("wayland-client.so"), CLink]
-	public static extern void wl_display_set_max_buffer_size(wl_display *display, c_size max_buffer_size);
+	public static extern void wl_display_set_max_buffer_size(wl_display display, c_size max_buffer_size);
 
 	// wl_log
 	[Import("wayland-client.so"), CLink]
