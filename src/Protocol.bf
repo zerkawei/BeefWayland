@@ -2,9 +2,9 @@ using System;
 using Wayland;
 namespace Wayland;
 /*
-    Copyright © 2008-2011 Kristian Høgsberg
-    Copyright © 2010-2011 Intel Corporation
-    Copyright © 2012-2013 Collabora, Ltd.
+    Copyright Â© 2008-2011 Kristian HÃ¸gsberg
+    Copyright Â© 2010-2011 Intel Corporation
+    Copyright Â© 2012-2013 Collabora, Ltd.
 
     Permission is hereby granted, free of charge, to any person
     obtaining a copy of this software and associated documentation files
@@ -56,8 +56,8 @@ public struct wl_display
     [CRepr]
     public struct Listener
     {
-       public function void(void* data, wl_display* wl_display, wl_object* object_id, uint32 code, char8* message) error;
-       public function void(void* data, wl_display* wl_display, uint32 id) delete_id;
+       public function void(void* data, wl_display wl_display, wl_object* object_id, uint32 code, char8* message) error;
+       public function void(void* data, wl_display wl_display, uint32 id) delete_id;
     }
 
     public wl_callback sync()
@@ -108,8 +108,8 @@ public struct wl_registry
     [CRepr]
     public struct Listener
     {
-       public function void(void* data, wl_registry* wl_registry, uint32 name, char8* iface, uint32 version) global;
-       public function void(void* data, wl_registry* wl_registry, uint32 name) global_remove;
+       public function void(void* data, wl_registry wl_registry, uint32 name, char8* iface, uint32 version) global;
+       public function void(void* data, wl_registry wl_registry, uint32 name) global_remove;
     }
 
     public void* bind(uint32 name, wl_interface* iface, uint32 version)
@@ -145,7 +145,7 @@ public struct wl_callback
     [CRepr]
     public struct Listener
     {
-       public function void(void* data, wl_callback* wl_callback, uint32 callback_data) done;
+       public function void(void* data, wl_callback wl_callback, uint32 callback_data) done;
     }
 
 }
@@ -249,7 +249,7 @@ public struct wl_shm
     [CRepr]
     public struct Listener
     {
-       public function void(void* data, wl_shm* wl_shm, uint32 format) format;
+       public function void(void* data, wl_shm wl_shm, uint32 format) format;
     }
 
     public wl_shm_pool create_pool(int32 fd, int32 size)
@@ -421,7 +421,7 @@ public struct wl_buffer
     [CRepr]
     public struct Listener
     {
-       public function void(void* data, wl_buffer* wl_buffer) release;
+       public function void(void* data, wl_buffer wl_buffer) release;
     }
 
     public void destroy()
@@ -461,9 +461,9 @@ public struct wl_data_offer
     [CRepr]
     public struct Listener
     {
-       public function void(void* data, wl_data_offer* wl_data_offer, char8* mime_type) offer;
-       public function void(void* data, wl_data_offer* wl_data_offer, uint32 source_actions) source_actions;
-       public function void(void* data, wl_data_offer* wl_data_offer, uint32 dnd_action) action;
+       public function void(void* data, wl_data_offer wl_data_offer, char8* mime_type) offer;
+       public function void(void* data, wl_data_offer wl_data_offer, uint32 source_actions) source_actions;
+       public function void(void* data, wl_data_offer wl_data_offer, uint32 dnd_action) action;
     }
 
     public void accept(uint32 serial, char8* mime_type)
@@ -525,12 +525,12 @@ public struct wl_data_source
     [CRepr]
     public struct Listener
     {
-       public function void(void* data, wl_data_source* wl_data_source, char8* mime_type) target;
-       public function void(void* data, wl_data_source* wl_data_source, char8* mime_type, int32 fd) send;
-       public function void(void* data, wl_data_source* wl_data_source) cancelled;
-       public function void(void* data, wl_data_source* wl_data_source) dnd_drop_performed;
-       public function void(void* data, wl_data_source* wl_data_source) dnd_finished;
-       public function void(void* data, wl_data_source* wl_data_source, uint32 dnd_action) action;
+       public function void(void* data, wl_data_source wl_data_source, char8* mime_type) target;
+       public function void(void* data, wl_data_source wl_data_source, char8* mime_type, int32 fd) send;
+       public function void(void* data, wl_data_source wl_data_source) cancelled;
+       public function void(void* data, wl_data_source wl_data_source) dnd_drop_performed;
+       public function void(void* data, wl_data_source wl_data_source) dnd_finished;
+       public function void(void* data, wl_data_source wl_data_source, uint32 dnd_action) action;
     }
 
     public void offer(char8* mime_type)
@@ -583,12 +583,12 @@ public struct wl_data_device
     [CRepr]
     public struct Listener
     {
-       public function void(void* data, wl_data_device* wl_data_device, uint32 id) data_offer;
-       public function void(void* data, wl_data_device* wl_data_device, uint32 serial, wl_object* surface, wl_fixed_t x, wl_fixed_t y, wl_object* id) enter;
-       public function void(void* data, wl_data_device* wl_data_device) leave;
-       public function void(void* data, wl_data_device* wl_data_device, uint32 time, wl_fixed_t x, wl_fixed_t y) motion;
-       public function void(void* data, wl_data_device* wl_data_device) drop;
-       public function void(void* data, wl_data_device* wl_data_device, wl_object* id) selection;
+       public function void(void* data, wl_data_device wl_data_device, uint32 id) data_offer;
+       public function void(void* data, wl_data_device wl_data_device, uint32 serial, wl_object* surface, wl_fixed_t x, wl_fixed_t y, wl_object* id) enter;
+       public function void(void* data, wl_data_device wl_data_device) leave;
+       public function void(void* data, wl_data_device wl_data_device, uint32 time, wl_fixed_t x, wl_fixed_t y) motion;
+       public function void(void* data, wl_data_device wl_data_device) drop;
+       public function void(void* data, wl_data_device wl_data_device, wl_object* id) selection;
     }
 
     public void start_drag(wl_object* source, wl_object* origin, wl_object* icon, uint32 serial)
@@ -720,9 +720,9 @@ public struct wl_shell_surface
     [CRepr]
     public struct Listener
     {
-       public function void(void* data, wl_shell_surface* wl_shell_surface, uint32 serial) ping;
-       public function void(void* data, wl_shell_surface* wl_shell_surface, uint32 edges, int32 width, int32 height) configure;
-       public function void(void* data, wl_shell_surface* wl_shell_surface) popup_done;
+       public function void(void* data, wl_shell_surface wl_shell_surface, uint32 serial) ping;
+       public function void(void* data, wl_shell_surface wl_shell_surface, uint32 edges, int32 width, int32 height) configure;
+       public function void(void* data, wl_shell_surface wl_shell_surface) popup_done;
     }
 
     public void pong(uint32 serial)
@@ -827,10 +827,10 @@ public struct wl_surface
     [CRepr]
     public struct Listener
     {
-       public function void(void* data, wl_surface* wl_surface, wl_object* output) enter;
-       public function void(void* data, wl_surface* wl_surface, wl_object* output) leave;
-       public function void(void* data, wl_surface* wl_surface, int32 factor) preferred_buffer_scale;
-       public function void(void* data, wl_surface* wl_surface, uint32 transform) preferred_buffer_transform;
+       public function void(void* data, wl_surface wl_surface, wl_object* output) enter;
+       public function void(void* data, wl_surface wl_surface, wl_object* output) leave;
+       public function void(void* data, wl_surface wl_surface, int32 factor) preferred_buffer_scale;
+       public function void(void* data, wl_surface wl_surface, uint32 transform) preferred_buffer_transform;
     }
 
     public void destroy()
@@ -919,8 +919,8 @@ public struct wl_seat
     [CRepr]
     public struct Listener
     {
-       public function void(void* data, wl_seat* wl_seat, uint32 capabilities) capabilities;
-       public function void(void* data, wl_seat* wl_seat, char8* name) name;
+       public function void(void* data, wl_seat wl_seat, uint32 capabilities) capabilities;
+       public function void(void* data, wl_seat wl_seat, char8* name) name;
     }
 
     public wl_pointer get_pointer()
@@ -993,17 +993,17 @@ public struct wl_pointer
     [CRepr]
     public struct Listener
     {
-       public function void(void* data, wl_pointer* wl_pointer, uint32 serial, wl_object* surface, wl_fixed_t surface_x, wl_fixed_t surface_y) enter;
-       public function void(void* data, wl_pointer* wl_pointer, uint32 serial, wl_object* surface) leave;
-       public function void(void* data, wl_pointer* wl_pointer, uint32 time, wl_fixed_t surface_x, wl_fixed_t surface_y) motion;
-       public function void(void* data, wl_pointer* wl_pointer, uint32 serial, uint32 time, uint32 button, uint32 state) button;
-       public function void(void* data, wl_pointer* wl_pointer, uint32 time, uint32 axis, wl_fixed_t value) axis;
-       public function void(void* data, wl_pointer* wl_pointer) frame;
-       public function void(void* data, wl_pointer* wl_pointer, uint32 axis_source) axis_source;
-       public function void(void* data, wl_pointer* wl_pointer, uint32 time, uint32 axis) axis_stop;
-       public function void(void* data, wl_pointer* wl_pointer, uint32 axis, int32 discrete) axis_discrete;
-       public function void(void* data, wl_pointer* wl_pointer, uint32 axis, int32 value120) axis_value120;
-       public function void(void* data, wl_pointer* wl_pointer, uint32 axis, uint32 direction) axis_relative_direction;
+       public function void(void* data, wl_pointer wl_pointer, uint32 serial, wl_object* surface, wl_fixed_t surface_x, wl_fixed_t surface_y) enter;
+       public function void(void* data, wl_pointer wl_pointer, uint32 serial, wl_object* surface) leave;
+       public function void(void* data, wl_pointer wl_pointer, uint32 time, wl_fixed_t surface_x, wl_fixed_t surface_y) motion;
+       public function void(void* data, wl_pointer wl_pointer, uint32 serial, uint32 time, uint32 button, uint32 state) button;
+       public function void(void* data, wl_pointer wl_pointer, uint32 time, uint32 axis, wl_fixed_t value) axis;
+       public function void(void* data, wl_pointer wl_pointer) frame;
+       public function void(void* data, wl_pointer wl_pointer, uint32 axis_source) axis_source;
+       public function void(void* data, wl_pointer wl_pointer, uint32 time, uint32 axis) axis_stop;
+       public function void(void* data, wl_pointer wl_pointer, uint32 axis, int32 discrete) axis_discrete;
+       public function void(void* data, wl_pointer wl_pointer, uint32 axis, int32 value120) axis_value120;
+       public function void(void* data, wl_pointer wl_pointer, uint32 axis, uint32 direction) axis_relative_direction;
     }
 
     public void set_cursor(uint32 serial, wl_object* surface, int32 hotspot_x, int32 hotspot_y)
@@ -1073,12 +1073,12 @@ public struct wl_keyboard
     [CRepr]
     public struct Listener
     {
-       public function void(void* data, wl_keyboard* wl_keyboard, uint32 format, int32 fd, uint32 size) keymap;
-       public function void(void* data, wl_keyboard* wl_keyboard, uint32 serial, wl_object* surface, wl_array* keys) enter;
-       public function void(void* data, wl_keyboard* wl_keyboard, uint32 serial, wl_object* surface) leave;
-       public function void(void* data, wl_keyboard* wl_keyboard, uint32 serial, uint32 time, uint32 key, uint32 state) key;
-       public function void(void* data, wl_keyboard* wl_keyboard, uint32 serial, uint32 mods_depressed, uint32 mods_latched, uint32 mods_locked, uint32 group) modifiers;
-       public function void(void* data, wl_keyboard* wl_keyboard, int32 rate, int32 delay) repeat_info;
+       public function void(void* data, wl_keyboard wl_keyboard, uint32 format, int32 fd, uint32 size) keymap;
+       public function void(void* data, wl_keyboard wl_keyboard, uint32 serial, wl_object* surface, wl_array* keys) enter;
+       public function void(void* data, wl_keyboard wl_keyboard, uint32 serial, wl_object* surface) leave;
+       public function void(void* data, wl_keyboard wl_keyboard, uint32 serial, uint32 time, uint32 key, uint32 state) key;
+       public function void(void* data, wl_keyboard wl_keyboard, uint32 serial, uint32 mods_depressed, uint32 mods_latched, uint32 mods_locked, uint32 group) modifiers;
+       public function void(void* data, wl_keyboard wl_keyboard, int32 rate, int32 delay) repeat_info;
     }
 
     public void release()
@@ -1128,13 +1128,13 @@ public struct wl_touch
     [CRepr]
     public struct Listener
     {
-       public function void(void* data, wl_touch* wl_touch, uint32 serial, uint32 time, wl_object* surface, int32 id, wl_fixed_t x, wl_fixed_t y) down;
-       public function void(void* data, wl_touch* wl_touch, uint32 serial, uint32 time, int32 id) up;
-       public function void(void* data, wl_touch* wl_touch, uint32 time, int32 id, wl_fixed_t x, wl_fixed_t y) motion;
-       public function void(void* data, wl_touch* wl_touch) frame;
-       public function void(void* data, wl_touch* wl_touch) cancel;
-       public function void(void* data, wl_touch* wl_touch, int32 id, wl_fixed_t major, wl_fixed_t minor) shape;
-       public function void(void* data, wl_touch* wl_touch, int32 id, wl_fixed_t orientation) orientation;
+       public function void(void* data, wl_touch wl_touch, uint32 serial, uint32 time, wl_object* surface, int32 id, wl_fixed_t x, wl_fixed_t y) down;
+       public function void(void* data, wl_touch wl_touch, uint32 serial, uint32 time, int32 id) up;
+       public function void(void* data, wl_touch wl_touch, uint32 time, int32 id, wl_fixed_t x, wl_fixed_t y) motion;
+       public function void(void* data, wl_touch wl_touch) frame;
+       public function void(void* data, wl_touch wl_touch) cancel;
+       public function void(void* data, wl_touch wl_touch, int32 id, wl_fixed_t major, wl_fixed_t minor) shape;
+       public function void(void* data, wl_touch wl_touch, int32 id, wl_fixed_t orientation) orientation;
     }
 
     public void release()
@@ -1173,12 +1173,12 @@ public struct wl_output
     [CRepr]
     public struct Listener
     {
-       public function void(void* data, wl_output* wl_output, int32 x, int32 y, int32 physical_width, int32 physical_height, int32 subpixel, char8* make, char8* model, int32 transform) geometry;
-       public function void(void* data, wl_output* wl_output, uint32 flags, int32 width, int32 height, int32 refresh) mode;
-       public function void(void* data, wl_output* wl_output) done;
-       public function void(void* data, wl_output* wl_output, int32 factor) scale;
-       public function void(void* data, wl_output* wl_output, char8* name) name;
-       public function void(void* data, wl_output* wl_output, char8* description) description;
+       public function void(void* data, wl_output wl_output, int32 x, int32 y, int32 physical_width, int32 physical_height, int32 subpixel, char8* make, char8* model, int32 transform) geometry;
+       public function void(void* data, wl_output wl_output, uint32 flags, int32 width, int32 height, int32 refresh) mode;
+       public function void(void* data, wl_output wl_output) done;
+       public function void(void* data, wl_output wl_output, int32 factor) scale;
+       public function void(void* data, wl_output wl_output, char8* name) name;
+       public function void(void* data, wl_output wl_output, char8* description) description;
     }
 
     public void release()

@@ -64,7 +64,7 @@ def build_enum(enum : Element) -> str:
     return out_text
 
 def build_event(event : Element, iface : Element) -> str:
-    out_text = f'       public function void(void* data, {iface.attrib["name"]}* {iface.attrib["name"]}'
+    out_text = f'       public function void(void* data, {iface.attrib["name"]} {iface.attrib["name"]}'
     for arg in event.findall("arg"):
         out_text += f', {beef_type_of[arg.attrib["type"]]} {beef_safe(arg.attrib["name"])}'
     out_text += f') {event.attrib["name"]};\n'
