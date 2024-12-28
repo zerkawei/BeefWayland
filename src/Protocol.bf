@@ -2,9 +2,9 @@ using System;
 using Wayland;
 namespace Wayland;
 /*
-    Copyright Â© 2008-2011 Kristian HÃ¸gsberg
-    Copyright Â© 2010-2011 Intel Corporation
-    Copyright Â© 2012-2013 Collabora, Ltd.
+    Copyright © 2008-2011 Kristian Høgsberg
+    Copyright © 2010-2011 Intel Corporation
+    Copyright © 2012-2013 Collabora, Ltd.
 
     Permission is hereby granted, free of charge, to any person
     obtaining a copy of this software and associated documentation files
@@ -40,6 +40,7 @@ public struct wl_display
 
     private static wl_interface*[3] error_message_types = .(null, null, null);
     private static wl_interface*[1] delete_id_message_types = .(null);
+    
     wl_proxy* proxy;
     public this(wl_proxy* proxy)
     {
@@ -57,23 +58,23 @@ public struct wl_display
     [CRepr]
     public struct Listener
     {
-       public function void(void* data, wl_display wl_display, wl_object* object_id, uint32 code, char8* message) error;
-       public function void(void* data, wl_display wl_display, uint32 id) delete_id;
+       public function void(void* data, wl_display wl_display, wl_object* object_id, uint32 code, char8* message) Error;
+       public function void(void* data, wl_display wl_display, uint32 id) DeleteId;
     }
 
-    public wl_callback sync()
+    public wl_callback Sync()
     {
         wl_proxy* id;
         id = Wayland.wl_proxy_marshal_constructor(proxy, 0, &wl_callback.Interface, null);
         return .(id);
     }
-    public wl_registry get_registry()
+    public wl_registry GetRegistry()
     {
         wl_proxy* id;
         id = Wayland.wl_proxy_marshal_constructor(proxy, 1, &wl_registry.Interface, null);
         return .(id);
     }
-    public enum error
+    public enum Error
     {
         InvalidObject = 0,
         InvalidMethod = 1,
@@ -93,6 +94,7 @@ public struct wl_registry
 
     private static wl_interface*[3] global_message_types = .(null, null, null);
     private static wl_interface*[1] global_remove_message_types = .(null);
+    
     wl_proxy* proxy;
     public this(wl_proxy* proxy)
     {
@@ -110,11 +112,11 @@ public struct wl_registry
     [CRepr]
     public struct Listener
     {
-       public function void(void* data, wl_registry wl_registry, uint32 name, char8* iface, uint32 version) global;
-       public function void(void* data, wl_registry wl_registry, uint32 name) global_remove;
+       public function void(void* data, wl_registry wl_registry, uint32 name, char8* iface, uint32 version) Global;
+       public function void(void* data, wl_registry wl_registry, uint32 name) GlobalRemove;
     }
 
-    public void* bind(uint32 name, wl_interface* iface, uint32 version)
+    public void* Bind(uint32 name, wl_interface* iface, uint32 version)
     {
         wl_proxy* id;
         id = Wayland.wl_proxy_marshal_constructor_versioned(proxy, 0, iface, version, name, iface.name, version, null);
@@ -131,6 +133,7 @@ public struct wl_callback
     
 
     private static wl_interface*[1] done_message_types = .(null);
+    
     wl_proxy* proxy;
     public this(wl_proxy* proxy)
     {
@@ -148,7 +151,7 @@ public struct wl_callback
     [CRepr]
     public struct Listener
     {
-       public function void(void* data, wl_callback wl_callback, uint32 callback_data) done;
+       public function void(void* data, wl_callback wl_callback, uint32 callback_data) Done;
     }
 
 }
@@ -163,6 +166,7 @@ public struct wl_compositor
     private static wl_interface*[1] create_surface_message_types = .(&wl_surface.Interface);
     private static wl_interface*[1] create_region_message_types = .(&wl_region.Interface);
 
+    
     wl_proxy* proxy;
     public this(wl_proxy* proxy)
     {
@@ -175,13 +179,13 @@ public struct wl_compositor
     public uint32 GetVersion()                => Wayland.wl_proxy_get_version(proxy);
     public void   Destroy()                   => Wayland.wl_proxy_destroy(proxy);
 
-    public wl_surface create_surface()
+    public wl_surface CreateSurface()
     {
         wl_proxy* id;
         id = Wayland.wl_proxy_marshal_constructor(proxy, 0, &wl_surface.Interface, null);
         return .(id);
     }
-    public wl_region create_region()
+    public wl_region CreateRegion()
     {
         wl_proxy* id;
         id = Wayland.wl_proxy_marshal_constructor(proxy, 1, &wl_region.Interface, null);
@@ -199,6 +203,7 @@ public struct wl_shm_pool
     private static wl_interface*[6] create_buffer_message_types = .(&wl_buffer.Interface, null, null, null, null, null);
     private static wl_interface*[1] resize_message_types = .(null);
 
+    
     wl_proxy* proxy;
     public this(wl_proxy* proxy)
     {
@@ -209,20 +214,19 @@ public struct wl_shm_pool
     public void   SetUserData(void* userData) => Wayland.wl_proxy_set_user_data(proxy, userData);
     public void*  GetUserData()               => Wayland.wl_proxy_get_user_data(proxy);
     public uint32 GetVersion()                => Wayland.wl_proxy_get_version(proxy);
-    public void   Destroy()                   => Wayland.wl_proxy_destroy(proxy);
 
-    public wl_buffer create_buffer(int32 offset, int32 width, int32 height, int32 stride, uint32 format)
+    public wl_buffer CreateBuffer(int32 offset, int32 width, int32 height, int32 stride, uint32 format)
     {
         wl_proxy* id;
         id = Wayland.wl_proxy_marshal_constructor(proxy, 0, &wl_buffer.Interface, null, offset, width, height, stride, format);
         return .(id);
     }
-    public void destroy()
+    public void Destroy()
     {
         Wayland.wl_proxy_marshal(proxy, 1);
         Wayland.wl_proxy_destroy(proxy);
     }
-    public void resize(int32 size)
+    public void Resize(int32 size)
     {
         Wayland.wl_proxy_marshal(proxy, 2, size);
     }
@@ -238,6 +242,7 @@ public struct wl_shm
     private static wl_interface*[3] create_pool_message_types = .(&wl_shm_pool.Interface, null, null);
 
     private static wl_interface*[1] format_message_types = .(null);
+    
     wl_proxy* proxy;
     public this(wl_proxy* proxy)
     {
@@ -255,27 +260,27 @@ public struct wl_shm
     [CRepr]
     public struct Listener
     {
-       public function void(void* data, wl_shm wl_shm, uint32 format) format;
+       public function void(void* data, wl_shm wl_shm, uint32 format) Format;
     }
 
-    public wl_shm_pool create_pool(int32 fd, int32 size)
+    public wl_shm_pool CreatePool(int32 fd, int32 size)
     {
         wl_proxy* id;
         id = Wayland.wl_proxy_marshal_constructor(proxy, 0, &wl_shm_pool.Interface, null, fd, size);
         return .(id);
     }
-    public void release()
+    public void Release()
     {
         Wayland.wl_proxy_marshal(proxy, 1);
         Wayland.wl_proxy_destroy(proxy);
     }
-    public enum error
+    public enum Error
     {
         InvalidFormat = 0,
         InvalidStride = 1,
         InvalidFd = 2,
     }
-    public enum format
+    public enum Format
     {
         Argb8888 = 0,
         Xrgb8888 = 1,
@@ -411,6 +416,7 @@ public struct wl_buffer
     private static wl_message[1] wl_buffer_events = .(.("release", "", null));
     
 
+    
     wl_proxy* proxy;
     public this(wl_proxy* proxy)
     {
@@ -421,17 +427,16 @@ public struct wl_buffer
     public void   SetUserData(void* userData) => Wayland.wl_proxy_set_user_data(proxy, userData);
     public void*  GetUserData()               => Wayland.wl_proxy_get_user_data(proxy);
     public uint32 GetVersion()                => Wayland.wl_proxy_get_version(proxy);
-    public void   Destroy()                   => Wayland.wl_proxy_destroy(proxy);
 
     public int AddListener(Listener* listener, void* data) => Wayland.wl_proxy_add_listener(proxy, (.)listener, data);      
     
     [CRepr]
     public struct Listener
     {
-       public function void(void* data, wl_buffer wl_buffer) release;
+       public function void(void* data, wl_buffer wl_buffer) Release;
     }
 
-    public void destroy()
+    public void Destroy()
     {
         Wayland.wl_proxy_marshal(proxy, 0);
         Wayland.wl_proxy_destroy(proxy);
@@ -452,6 +457,7 @@ public struct wl_data_offer
     private static wl_interface*[1] offer_message_types = .(null);
     private static wl_interface*[1] source_actions_message_types = .(null);
     private static wl_interface*[1] action_message_types = .(null);
+    
     wl_proxy* proxy;
     public this(wl_proxy* proxy)
     {
@@ -462,40 +468,39 @@ public struct wl_data_offer
     public void   SetUserData(void* userData) => Wayland.wl_proxy_set_user_data(proxy, userData);
     public void*  GetUserData()               => Wayland.wl_proxy_get_user_data(proxy);
     public uint32 GetVersion()                => Wayland.wl_proxy_get_version(proxy);
-    public void   Destroy()                   => Wayland.wl_proxy_destroy(proxy);
 
     public int AddListener(Listener* listener, void* data) => Wayland.wl_proxy_add_listener(proxy, (.)listener, data);      
     
     [CRepr]
     public struct Listener
     {
-       public function void(void* data, wl_data_offer wl_data_offer, char8* mime_type) offer;
-       public function void(void* data, wl_data_offer wl_data_offer, uint32 source_actions) source_actions;
-       public function void(void* data, wl_data_offer wl_data_offer, uint32 dnd_action) action;
+       public function void(void* data, wl_data_offer wl_data_offer, char8* mime_type) Offer;
+       public function void(void* data, wl_data_offer wl_data_offer, uint32 source_actions) SourceActions;
+       public function void(void* data, wl_data_offer wl_data_offer, uint32 dnd_action) Action;
     }
 
-    public void accept(uint32 serial, char8* mime_type)
+    public void Accept(uint32 serial, char8* mime_type)
     {
         Wayland.wl_proxy_marshal(proxy, 0, serial, mime_type);
     }
-    public void receive(char8* mime_type, int32 fd)
+    public void Receive(char8* mime_type, int32 fd)
     {
         Wayland.wl_proxy_marshal(proxy, 1, mime_type, fd);
     }
-    public void destroy()
+    public void Destroy()
     {
         Wayland.wl_proxy_marshal(proxy, 2);
         Wayland.wl_proxy_destroy(proxy);
     }
-    public void finish()
+    public void Finish()
     {
         Wayland.wl_proxy_marshal(proxy, 3);
     }
-    public void set_actions(uint32 dnd_actions, uint32 preferred_action)
+    public void SetActions(uint32 dnd_actions, uint32 preferred_action)
     {
         Wayland.wl_proxy_marshal(proxy, 4, dnd_actions, preferred_action);
     }
-    public enum error
+    public enum Error
     {
         InvalidFinish = 0,
         InvalidActionMask = 1,
@@ -517,6 +522,7 @@ public struct wl_data_source
     private static wl_interface*[1] target_message_types = .(null);
     private static wl_interface*[2] send_message_types = .(null, null);
     private static wl_interface*[1] action_message_types = .(null);
+    
     wl_proxy* proxy;
     public this(wl_proxy* proxy)
     {
@@ -527,35 +533,34 @@ public struct wl_data_source
     public void   SetUserData(void* userData) => Wayland.wl_proxy_set_user_data(proxy, userData);
     public void*  GetUserData()               => Wayland.wl_proxy_get_user_data(proxy);
     public uint32 GetVersion()                => Wayland.wl_proxy_get_version(proxy);
-    public void   Destroy()                   => Wayland.wl_proxy_destroy(proxy);
 
     public int AddListener(Listener* listener, void* data) => Wayland.wl_proxy_add_listener(proxy, (.)listener, data);      
     
     [CRepr]
     public struct Listener
     {
-       public function void(void* data, wl_data_source wl_data_source, char8* mime_type) target;
-       public function void(void* data, wl_data_source wl_data_source, char8* mime_type, int32 fd) send;
-       public function void(void* data, wl_data_source wl_data_source) cancelled;
-       public function void(void* data, wl_data_source wl_data_source) dnd_drop_performed;
-       public function void(void* data, wl_data_source wl_data_source) dnd_finished;
-       public function void(void* data, wl_data_source wl_data_source, uint32 dnd_action) action;
+       public function void(void* data, wl_data_source wl_data_source, char8* mime_type) Target;
+       public function void(void* data, wl_data_source wl_data_source, char8* mime_type, int32 fd) Send;
+       public function void(void* data, wl_data_source wl_data_source) Cancelled;
+       public function void(void* data, wl_data_source wl_data_source) DndDropPerformed;
+       public function void(void* data, wl_data_source wl_data_source) DndFinished;
+       public function void(void* data, wl_data_source wl_data_source, uint32 dnd_action) Action;
     }
 
-    public void offer(char8* mime_type)
+    public void Offer(char8* mime_type)
     {
         Wayland.wl_proxy_marshal(proxy, 0, mime_type);
     }
-    public void destroy()
+    public void Destroy()
     {
         Wayland.wl_proxy_marshal(proxy, 1);
         Wayland.wl_proxy_destroy(proxy);
     }
-    public void set_actions(uint32 dnd_actions)
+    public void SetActions(uint32 dnd_actions)
     {
         Wayland.wl_proxy_marshal(proxy, 2, dnd_actions);
     }
-    public enum error
+    public enum Error
     {
         InvalidActionMask = 0,
         InvalidSource = 1,
@@ -576,6 +581,7 @@ public struct wl_data_device
     private static wl_interface*[5] enter_message_types = .(null, &wl_surface.Interface, null, null, &wl_data_offer.Interface);
     private static wl_interface*[3] motion_message_types = .(null, null, null);
     private static wl_interface*[1] selection_message_types = .(&wl_data_offer.Interface);
+    
     wl_proxy* proxy;
     public this(wl_proxy* proxy)
     {
@@ -593,28 +599,28 @@ public struct wl_data_device
     [CRepr]
     public struct Listener
     {
-       public function void(void* data, wl_data_device wl_data_device, uint32 id) data_offer;
-       public function void(void* data, wl_data_device wl_data_device, uint32 serial, wl_object* surface, wl_fixed_t x, wl_fixed_t y, wl_object* id) enter;
-       public function void(void* data, wl_data_device wl_data_device) leave;
-       public function void(void* data, wl_data_device wl_data_device, uint32 time, wl_fixed_t x, wl_fixed_t y) motion;
-       public function void(void* data, wl_data_device wl_data_device) drop;
-       public function void(void* data, wl_data_device wl_data_device, wl_object* id) selection;
+       public function void(void* data, wl_data_device wl_data_device, uint32 id) DataOffer;
+       public function void(void* data, wl_data_device wl_data_device, uint32 serial, wl_object* surface, wl_fixed_t x, wl_fixed_t y, wl_object* id) Enter;
+       public function void(void* data, wl_data_device wl_data_device) Leave;
+       public function void(void* data, wl_data_device wl_data_device, uint32 time, wl_fixed_t x, wl_fixed_t y) Motion;
+       public function void(void* data, wl_data_device wl_data_device) Drop;
+       public function void(void* data, wl_data_device wl_data_device, wl_object* id) Selection;
     }
 
-    public void start_drag(wl_object* source, wl_object* origin, wl_object* icon, uint32 serial)
+    public void StartDrag(wl_object* source, wl_object* origin, wl_object* icon, uint32 serial)
     {
         Wayland.wl_proxy_marshal(proxy, 0, source, origin, icon, serial);
     }
-    public void set_selection(wl_object* source, uint32 serial)
+    public void SetSelection(wl_object* source, uint32 serial)
     {
         Wayland.wl_proxy_marshal(proxy, 1, source, serial);
     }
-    public void release()
+    public void Release()
     {
         Wayland.wl_proxy_marshal(proxy, 2);
         Wayland.wl_proxy_destroy(proxy);
     }
-    public enum error
+    public enum Error
     {
         Role = 0,
         UsedSource = 1,
@@ -631,6 +637,7 @@ public struct wl_data_device_manager
     private static wl_interface*[1] create_data_source_message_types = .(&wl_data_source.Interface);
     private static wl_interface*[2] get_data_device_message_types = .(&wl_data_device.Interface, &wl_seat.Interface);
 
+    
     wl_proxy* proxy;
     public this(wl_proxy* proxy)
     {
@@ -643,19 +650,19 @@ public struct wl_data_device_manager
     public uint32 GetVersion()                => Wayland.wl_proxy_get_version(proxy);
     public void   Destroy()                   => Wayland.wl_proxy_destroy(proxy);
 
-    public wl_data_source create_data_source()
+    public wl_data_source CreateDataSource()
     {
         wl_proxy* id;
         id = Wayland.wl_proxy_marshal_constructor(proxy, 0, &wl_data_source.Interface, null);
         return .(id);
     }
-    public wl_data_device get_data_device(wl_object* seat)
+    public wl_data_device GetDataDevice(wl_object* seat)
     {
         wl_proxy* id;
         id = Wayland.wl_proxy_marshal_constructor(proxy, 1, &wl_data_device.Interface, null, seat);
         return .(id);
     }
-    public enum dnd_action
+    public enum DndAction
     {
         None = 0,
         Copy = 1,
@@ -673,6 +680,7 @@ public struct wl_shell
     
     private static wl_interface*[2] get_shell_surface_message_types = .(&wl_shell_surface.Interface, &wl_surface.Interface);
 
+    
     wl_proxy* proxy;
     public this(wl_proxy* proxy)
     {
@@ -685,13 +693,13 @@ public struct wl_shell
     public uint32 GetVersion()                => Wayland.wl_proxy_get_version(proxy);
     public void   Destroy()                   => Wayland.wl_proxy_destroy(proxy);
 
-    public wl_shell_surface get_shell_surface(wl_object* surface)
+    public wl_shell_surface GetShellSurface(wl_object* surface)
     {
         wl_proxy* id;
         id = Wayland.wl_proxy_marshal_constructor(proxy, 0, &wl_shell_surface.Interface, null, surface);
         return .(id);
     }
-    public enum error
+    public enum Error
     {
         Role = 0,
     }
@@ -716,6 +724,7 @@ public struct wl_shell_surface
 
     private static wl_interface*[1] ping_message_types = .(null);
     private static wl_interface*[3] configure_message_types = .(null, null, null);
+    
     wl_proxy* proxy;
     public this(wl_proxy* proxy)
     {
@@ -733,52 +742,52 @@ public struct wl_shell_surface
     [CRepr]
     public struct Listener
     {
-       public function void(void* data, wl_shell_surface wl_shell_surface, uint32 serial) ping;
-       public function void(void* data, wl_shell_surface wl_shell_surface, uint32 edges, int32 width, int32 height) configure;
-       public function void(void* data, wl_shell_surface wl_shell_surface) popup_done;
+       public function void(void* data, wl_shell_surface wl_shell_surface, uint32 serial) Ping;
+       public function void(void* data, wl_shell_surface wl_shell_surface, uint32 edges, int32 width, int32 height) Configure;
+       public function void(void* data, wl_shell_surface wl_shell_surface) PopupDone;
     }
 
-    public void pong(uint32 serial)
+    public void Pong(uint32 serial)
     {
         Wayland.wl_proxy_marshal(proxy, 0, serial);
     }
-    public void move(wl_object* seat, uint32 serial)
+    public void Move(wl_object* seat, uint32 serial)
     {
         Wayland.wl_proxy_marshal(proxy, 1, seat, serial);
     }
-    public void resize(wl_object* seat, uint32 serial, uint32 edges)
+    public void Resize(wl_object* seat, uint32 serial, uint32 edges)
     {
         Wayland.wl_proxy_marshal(proxy, 2, seat, serial, edges);
     }
-    public void set_toplevel()
+    public void SetToplevel()
     {
         Wayland.wl_proxy_marshal(proxy, 3);
     }
-    public void set_transient(wl_object* parent, int32 x, int32 y, uint32 flags)
+    public void SetTransient(wl_object* parent, int32 x, int32 y, uint32 flags)
     {
         Wayland.wl_proxy_marshal(proxy, 4, parent, x, y, flags);
     }
-    public void set_fullscreen(uint32 method, uint32 framerate, wl_object* output)
+    public void SetFullscreen(uint32 method, uint32 framerate, wl_object* output)
     {
         Wayland.wl_proxy_marshal(proxy, 5, method, framerate, output);
     }
-    public void set_popup(wl_object* seat, uint32 serial, wl_object* parent, int32 x, int32 y, uint32 flags)
+    public void SetPopup(wl_object* seat, uint32 serial, wl_object* parent, int32 x, int32 y, uint32 flags)
     {
         Wayland.wl_proxy_marshal(proxy, 6, seat, serial, parent, x, y, flags);
     }
-    public void set_maximized(wl_object* output)
+    public void SetMaximized(wl_object* output)
     {
         Wayland.wl_proxy_marshal(proxy, 7, output);
     }
-    public void set_title(char8* title)
+    public void SetTitle(char8* title)
     {
         Wayland.wl_proxy_marshal(proxy, 8, title);
     }
-    public void set_class(char8* class_)
+    public void SetClass(char8* class_)
     {
         Wayland.wl_proxy_marshal(proxy, 9, class_);
     }
-    public enum resize
+    public enum Resize
     {
         None = 0,
         Top = 1,
@@ -790,11 +799,11 @@ public struct wl_shell_surface
         TopRight = 9,
         BottomRight = 10,
     }
-    public enum transient
+    public enum Transient
     {
         Inactive = 0x1,
     }
-    public enum fullscreen_method
+    public enum FullscreenMethod
     {
         Default = 0,
         Scale = 1,
@@ -824,6 +833,7 @@ public struct wl_surface
     private static wl_interface*[1] leave_message_types = .(&wl_output.Interface);
     private static wl_interface*[1] preferred_buffer_scale_message_types = .(null);
     private static wl_interface*[1] preferred_buffer_transform_message_types = .(null);
+    
     wl_proxy* proxy;
     public this(wl_proxy* proxy)
     {
@@ -834,67 +844,66 @@ public struct wl_surface
     public void   SetUserData(void* userData) => Wayland.wl_proxy_set_user_data(proxy, userData);
     public void*  GetUserData()               => Wayland.wl_proxy_get_user_data(proxy);
     public uint32 GetVersion()                => Wayland.wl_proxy_get_version(proxy);
-    public void   Destroy()                   => Wayland.wl_proxy_destroy(proxy);
 
     public int AddListener(Listener* listener, void* data) => Wayland.wl_proxy_add_listener(proxy, (.)listener, data);      
     
     [CRepr]
     public struct Listener
     {
-       public function void(void* data, wl_surface wl_surface, wl_object* output) enter;
-       public function void(void* data, wl_surface wl_surface, wl_object* output) leave;
-       public function void(void* data, wl_surface wl_surface, int32 factor) preferred_buffer_scale;
-       public function void(void* data, wl_surface wl_surface, uint32 transform) preferred_buffer_transform;
+       public function void(void* data, wl_surface wl_surface, wl_object* output) Enter;
+       public function void(void* data, wl_surface wl_surface, wl_object* output) Leave;
+       public function void(void* data, wl_surface wl_surface, int32 factor) PreferredBufferScale;
+       public function void(void* data, wl_surface wl_surface, uint32 transform) PreferredBufferTransform;
     }
 
-    public void destroy()
+    public void Destroy()
     {
         Wayland.wl_proxy_marshal(proxy, 0);
         Wayland.wl_proxy_destroy(proxy);
     }
-    public void attach(wl_object* buffer, int32 x, int32 y)
+    public void Attach(wl_object* buffer, int32 x, int32 y)
     {
         Wayland.wl_proxy_marshal(proxy, 1, buffer, x, y);
     }
-    public void damage(int32 x, int32 y, int32 width, int32 height)
+    public void Damage(int32 x, int32 y, int32 width, int32 height)
     {
         Wayland.wl_proxy_marshal(proxy, 2, x, y, width, height);
     }
-    public wl_callback frame()
+    public wl_callback Frame()
     {
         wl_proxy* id;
         id = Wayland.wl_proxy_marshal_constructor(proxy, 3, &wl_callback.Interface, null);
         return .(id);
     }
-    public void set_opaque_region(wl_object* region)
+    public void SetOpaqueRegion(wl_object* region)
     {
         Wayland.wl_proxy_marshal(proxy, 4, region);
     }
-    public void set_input_region(wl_object* region)
+    public void SetInputRegion(wl_object* region)
     {
         Wayland.wl_proxy_marshal(proxy, 5, region);
     }
-    public void commit()
+    public void Commit()
     {
         Wayland.wl_proxy_marshal(proxy, 6);
     }
-    public void set_buffer_transform(int32 transform)
+    public void SetBufferTransform(int32 transform)
     {
         Wayland.wl_proxy_marshal(proxy, 7, transform);
     }
-    public void set_buffer_scale(int32 scale)
+    public void SetBufferScale(int32 scale)
     {
         Wayland.wl_proxy_marshal(proxy, 8, scale);
     }
-    public void damage_buffer(int32 x, int32 y, int32 width, int32 height)
+    public void DamageBuffer(int32 x, int32 y, int32 width, int32 height)
     {
         Wayland.wl_proxy_marshal(proxy, 9, x, y, width, height);
     }
-    public void offset(int32 x, int32 y)
+    public void Offset(int32 x, int32 y)
     {
         Wayland.wl_proxy_marshal(proxy, 10, x, y);
     }
-    public enum error
+    public enum Error
     {
         InvalidScale = 0,
         InvalidTransform = 1,
@@ -917,6 +926,7 @@ public struct wl_seat
 
     private static wl_interface*[1] capabilities_message_types = .(null);
     private static wl_interface*[1] name_message_types = .(null);
+    
     wl_proxy* proxy;
     public this(wl_proxy* proxy)
     {
@@ -934,40 +944,40 @@ public struct wl_seat
     [CRepr]
     public struct Listener
     {
-       public function void(void* data, wl_seat wl_seat, uint32 capabilities) capabilities;
-       public function void(void* data, wl_seat wl_seat, char8* name) name;
+       public function void(void* data, wl_seat wl_seat, uint32 capabilities) Capabilities;
+       public function void(void* data, wl_seat wl_seat, char8* name) Name;
     }
 
-    public wl_pointer get_pointer()
+    public wl_pointer GetPointer()
     {
         wl_proxy* id;
         id = Wayland.wl_proxy_marshal_constructor(proxy, 0, &wl_pointer.Interface, null);
         return .(id);
     }
-    public wl_keyboard get_keyboard()
+    public wl_keyboard GetKeyboard()
     {
         wl_proxy* id;
         id = Wayland.wl_proxy_marshal_constructor(proxy, 1, &wl_keyboard.Interface, null);
         return .(id);
     }
-    public wl_touch get_touch()
+    public wl_touch GetTouch()
     {
         wl_proxy* id;
         id = Wayland.wl_proxy_marshal_constructor(proxy, 2, &wl_touch.Interface, null);
         return .(id);
     }
-    public void release()
+    public void Release()
     {
         Wayland.wl_proxy_marshal(proxy, 3);
         Wayland.wl_proxy_destroy(proxy);
     }
-    public enum capability
+    public enum Capability
     {
         Pointer = 1,
         Keyboard = 2,
         Touch = 4,
     }
-    public enum error
+    public enum Error
     {
         MissingCapability = 0,
     }
@@ -992,6 +1002,7 @@ public struct wl_pointer
     private static wl_interface*[2] axis_discrete_message_types = .(null, null);
     private static wl_interface*[2] axis_value120_message_types = .(null, null);
     private static wl_interface*[2] axis_relative_direction_message_types = .(null, null);
+    
     wl_proxy* proxy;
     public this(wl_proxy* proxy)
     {
@@ -1009,50 +1020,50 @@ public struct wl_pointer
     [CRepr]
     public struct Listener
     {
-       public function void(void* data, wl_pointer wl_pointer, uint32 serial, wl_object* surface, wl_fixed_t surface_x, wl_fixed_t surface_y) enter;
-       public function void(void* data, wl_pointer wl_pointer, uint32 serial, wl_object* surface) leave;
-       public function void(void* data, wl_pointer wl_pointer, uint32 time, wl_fixed_t surface_x, wl_fixed_t surface_y) motion;
-       public function void(void* data, wl_pointer wl_pointer, uint32 serial, uint32 time, uint32 button, uint32 state) button;
-       public function void(void* data, wl_pointer wl_pointer, uint32 time, uint32 axis, wl_fixed_t value) axis;
-       public function void(void* data, wl_pointer wl_pointer) frame;
-       public function void(void* data, wl_pointer wl_pointer, uint32 axis_source) axis_source;
-       public function void(void* data, wl_pointer wl_pointer, uint32 time, uint32 axis) axis_stop;
-       public function void(void* data, wl_pointer wl_pointer, uint32 axis, int32 discrete) axis_discrete;
-       public function void(void* data, wl_pointer wl_pointer, uint32 axis, int32 value120) axis_value120;
-       public function void(void* data, wl_pointer wl_pointer, uint32 axis, uint32 direction) axis_relative_direction;
+       public function void(void* data, wl_pointer wl_pointer, uint32 serial, wl_object* surface, wl_fixed_t surface_x, wl_fixed_t surface_y) Enter;
+       public function void(void* data, wl_pointer wl_pointer, uint32 serial, wl_object* surface) Leave;
+       public function void(void* data, wl_pointer wl_pointer, uint32 time, wl_fixed_t surface_x, wl_fixed_t surface_y) Motion;
+       public function void(void* data, wl_pointer wl_pointer, uint32 serial, uint32 time, uint32 button, uint32 state) Button;
+       public function void(void* data, wl_pointer wl_pointer, uint32 time, uint32 axis, wl_fixed_t value) Axis;
+       public function void(void* data, wl_pointer wl_pointer) Frame;
+       public function void(void* data, wl_pointer wl_pointer, uint32 axis_source) AxisSource;
+       public function void(void* data, wl_pointer wl_pointer, uint32 time, uint32 axis) AxisStop;
+       public function void(void* data, wl_pointer wl_pointer, uint32 axis, int32 discrete) AxisDiscrete;
+       public function void(void* data, wl_pointer wl_pointer, uint32 axis, int32 value120) AxisValue120;
+       public function void(void* data, wl_pointer wl_pointer, uint32 axis, uint32 direction) AxisRelativeDirection;
     }
 
-    public void set_cursor(uint32 serial, wl_object* surface, int32 hotspot_x, int32 hotspot_y)
+    public void SetCursor(uint32 serial, wl_object* surface, int32 hotspot_x, int32 hotspot_y)
     {
         Wayland.wl_proxy_marshal(proxy, 0, serial, surface, hotspot_x, hotspot_y);
     }
-    public void release()
+    public void Release()
     {
         Wayland.wl_proxy_marshal(proxy, 1);
         Wayland.wl_proxy_destroy(proxy);
     }
-    public enum error
+    public enum Error
     {
         Role = 0,
     }
-    public enum button_state
+    public enum ButtonState
     {
         Released = 0,
         Pressed = 1,
     }
-    public enum axis
+    public enum Axis
     {
         VerticalScroll = 0,
         HorizontalScroll = 1,
     }
-    public enum axis_source
+    public enum AxisSource
     {
         Wheel = 0,
         Finger = 1,
         Continuous = 2,
         WheelTilt = 3,
     }
-    public enum axis_relative_direction
+    public enum AxisRelativeDirection
     {
         Identical = 0,
         Inverted = 1,
@@ -1073,6 +1084,7 @@ public struct wl_keyboard
     private static wl_interface*[4] key_message_types = .(null, null, null, null);
     private static wl_interface*[5] modifiers_message_types = .(null, null, null, null, null);
     private static wl_interface*[2] repeat_info_message_types = .(null, null);
+    
     wl_proxy* proxy;
     public this(wl_proxy* proxy)
     {
@@ -1090,25 +1102,25 @@ public struct wl_keyboard
     [CRepr]
     public struct Listener
     {
-       public function void(void* data, wl_keyboard wl_keyboard, uint32 format, int32 fd, uint32 size) keymap;
-       public function void(void* data, wl_keyboard wl_keyboard, uint32 serial, wl_object* surface, wl_array* keys) enter;
-       public function void(void* data, wl_keyboard wl_keyboard, uint32 serial, wl_object* surface) leave;
-       public function void(void* data, wl_keyboard wl_keyboard, uint32 serial, uint32 time, uint32 key, uint32 state) key;
-       public function void(void* data, wl_keyboard wl_keyboard, uint32 serial, uint32 mods_depressed, uint32 mods_latched, uint32 mods_locked, uint32 group) modifiers;
-       public function void(void* data, wl_keyboard wl_keyboard, int32 rate, int32 delay) repeat_info;
+       public function void(void* data, wl_keyboard wl_keyboard, uint32 format, int32 fd, uint32 size) Keymap;
+       public function void(void* data, wl_keyboard wl_keyboard, uint32 serial, wl_object* surface, wl_array* keys) Enter;
+       public function void(void* data, wl_keyboard wl_keyboard, uint32 serial, wl_object* surface) Leave;
+       public function void(void* data, wl_keyboard wl_keyboard, uint32 serial, uint32 time, uint32 key, uint32 state) Key;
+       public function void(void* data, wl_keyboard wl_keyboard, uint32 serial, uint32 mods_depressed, uint32 mods_latched, uint32 mods_locked, uint32 group) Modifiers;
+       public function void(void* data, wl_keyboard wl_keyboard, int32 rate, int32 delay) RepeatInfo;
     }
 
-    public void release()
+    public void Release()
     {
         Wayland.wl_proxy_marshal(proxy, 0);
         Wayland.wl_proxy_destroy(proxy);
     }
-    public enum keymap_format
+    public enum KeymapFormat
     {
         NoKeymap = 0,
         XkbV1 = 1,
     }
-    public enum key_state
+    public enum KeyState
     {
         Released = 0,
         Pressed = 1,
@@ -1129,6 +1141,7 @@ public struct wl_touch
     private static wl_interface*[4] motion_message_types = .(null, null, null, null);
     private static wl_interface*[3] shape_message_types = .(null, null, null);
     private static wl_interface*[2] orientation_message_types = .(null, null);
+    
     wl_proxy* proxy;
     public this(wl_proxy* proxy)
     {
@@ -1146,16 +1159,16 @@ public struct wl_touch
     [CRepr]
     public struct Listener
     {
-       public function void(void* data, wl_touch wl_touch, uint32 serial, uint32 time, wl_object* surface, int32 id, wl_fixed_t x, wl_fixed_t y) down;
-       public function void(void* data, wl_touch wl_touch, uint32 serial, uint32 time, int32 id) up;
-       public function void(void* data, wl_touch wl_touch, uint32 time, int32 id, wl_fixed_t x, wl_fixed_t y) motion;
-       public function void(void* data, wl_touch wl_touch) frame;
-       public function void(void* data, wl_touch wl_touch) cancel;
-       public function void(void* data, wl_touch wl_touch, int32 id, wl_fixed_t major, wl_fixed_t minor) shape;
-       public function void(void* data, wl_touch wl_touch, int32 id, wl_fixed_t orientation) orientation;
+       public function void(void* data, wl_touch wl_touch, uint32 serial, uint32 time, wl_object* surface, int32 id, wl_fixed_t x, wl_fixed_t y) Down;
+       public function void(void* data, wl_touch wl_touch, uint32 serial, uint32 time, int32 id) Up;
+       public function void(void* data, wl_touch wl_touch, uint32 time, int32 id, wl_fixed_t x, wl_fixed_t y) Motion;
+       public function void(void* data, wl_touch wl_touch) Frame;
+       public function void(void* data, wl_touch wl_touch) Cancel;
+       public function void(void* data, wl_touch wl_touch, int32 id, wl_fixed_t major, wl_fixed_t minor) Shape;
+       public function void(void* data, wl_touch wl_touch, int32 id, wl_fixed_t orientation) Orientation;
     }
 
-    public void release()
+    public void Release()
     {
         Wayland.wl_proxy_marshal(proxy, 0);
         Wayland.wl_proxy_destroy(proxy);
@@ -1175,6 +1188,7 @@ public struct wl_output
     private static wl_interface*[1] scale_message_types = .(null);
     private static wl_interface*[1] name_message_types = .(null);
     private static wl_interface*[1] description_message_types = .(null);
+    
     wl_proxy* proxy;
     public this(wl_proxy* proxy)
     {
@@ -1192,20 +1206,20 @@ public struct wl_output
     [CRepr]
     public struct Listener
     {
-       public function void(void* data, wl_output wl_output, int32 x, int32 y, int32 physical_width, int32 physical_height, int32 subpixel, char8* make, char8* model, int32 transform) geometry;
-       public function void(void* data, wl_output wl_output, uint32 flags, int32 width, int32 height, int32 refresh) mode;
-       public function void(void* data, wl_output wl_output) done;
-       public function void(void* data, wl_output wl_output, int32 factor) scale;
-       public function void(void* data, wl_output wl_output, char8* name) name;
-       public function void(void* data, wl_output wl_output, char8* description) description;
+       public function void(void* data, wl_output wl_output, int32 x, int32 y, int32 physical_width, int32 physical_height, int32 subpixel, char8* make, char8* model, int32 transform) Geometry;
+       public function void(void* data, wl_output wl_output, uint32 flags, int32 width, int32 height, int32 refresh) Mode;
+       public function void(void* data, wl_output wl_output) Done;
+       public function void(void* data, wl_output wl_output, int32 factor) Scale;
+       public function void(void* data, wl_output wl_output, char8* name) Name;
+       public function void(void* data, wl_output wl_output, char8* description) Description;
     }
 
-    public void release()
+    public void Release()
     {
         Wayland.wl_proxy_marshal(proxy, 0);
         Wayland.wl_proxy_destroy(proxy);
     }
-    public enum subpixel
+    public enum Subpixel
     {
         Unknown = 0,
         None = 1,
@@ -1214,7 +1228,7 @@ public struct wl_output
         VerticalRgb = 4,
         VerticalBgr = 5,
     }
-    public enum transform
+    public enum Transform
     {
         Normal = 0,
         _90 = 1,
@@ -1225,7 +1239,7 @@ public struct wl_output
         Flipped180 = 6,
         Flipped270 = 7,
     }
-    public enum mode
+    public enum Mode
     {
         Current = 0x1,
         Preferred = 0x2,
@@ -1242,6 +1256,7 @@ public struct wl_region
     private static wl_interface*[4] add_message_types = .(null, null, null, null);
     private static wl_interface*[4] subtract_message_types = .(null, null, null, null);
 
+    
     wl_proxy* proxy;
     public this(wl_proxy* proxy)
     {
@@ -1252,18 +1267,17 @@ public struct wl_region
     public void   SetUserData(void* userData) => Wayland.wl_proxy_set_user_data(proxy, userData);
     public void*  GetUserData()               => Wayland.wl_proxy_get_user_data(proxy);
     public uint32 GetVersion()                => Wayland.wl_proxy_get_version(proxy);
-    public void   Destroy()                   => Wayland.wl_proxy_destroy(proxy);
 
-    public void destroy()
+    public void Destroy()
     {
         Wayland.wl_proxy_marshal(proxy, 0);
         Wayland.wl_proxy_destroy(proxy);
     }
-    public void add(int32 x, int32 y, int32 width, int32 height)
+    public void Add(int32 x, int32 y, int32 width, int32 height)
     {
         Wayland.wl_proxy_marshal(proxy, 1, x, y, width, height);
     }
-    public void subtract(int32 x, int32 y, int32 width, int32 height)
+    public void Subtract(int32 x, int32 y, int32 width, int32 height)
     {
         Wayland.wl_proxy_marshal(proxy, 2, x, y, width, height);
     }
@@ -1278,6 +1292,7 @@ public struct wl_subcompositor
     
     private static wl_interface*[3] get_subsurface_message_types = .(&wl_subsurface.Interface, &wl_surface.Interface, &wl_surface.Interface);
 
+    
     wl_proxy* proxy;
     public this(wl_proxy* proxy)
     {
@@ -1288,20 +1303,19 @@ public struct wl_subcompositor
     public void   SetUserData(void* userData) => Wayland.wl_proxy_set_user_data(proxy, userData);
     public void*  GetUserData()               => Wayland.wl_proxy_get_user_data(proxy);
     public uint32 GetVersion()                => Wayland.wl_proxy_get_version(proxy);
-    public void   Destroy()                   => Wayland.wl_proxy_destroy(proxy);
 
-    public void destroy()
+    public void Destroy()
     {
         Wayland.wl_proxy_marshal(proxy, 0);
         Wayland.wl_proxy_destroy(proxy);
     }
-    public wl_subsurface get_subsurface(wl_object* surface, wl_object* parent)
+    public wl_subsurface GetSubsurface(wl_object* surface, wl_object* parent)
     {
         wl_proxy* id;
         id = Wayland.wl_proxy_marshal_constructor(proxy, 1, &wl_subsurface.Interface, null, surface, parent);
         return .(id);
     }
-    public enum error
+    public enum Error
     {
         BadSurface = 0,
         BadParent = 1,
@@ -1319,6 +1333,7 @@ public struct wl_subsurface
     private static wl_interface*[1] place_above_message_types = .(&wl_surface.Interface);
     private static wl_interface*[1] place_below_message_types = .(&wl_surface.Interface);
 
+    
     wl_proxy* proxy;
     public this(wl_proxy* proxy)
     {
@@ -1329,34 +1344,33 @@ public struct wl_subsurface
     public void   SetUserData(void* userData) => Wayland.wl_proxy_set_user_data(proxy, userData);
     public void*  GetUserData()               => Wayland.wl_proxy_get_user_data(proxy);
     public uint32 GetVersion()                => Wayland.wl_proxy_get_version(proxy);
-    public void   Destroy()                   => Wayland.wl_proxy_destroy(proxy);
 
-    public void destroy()
+    public void Destroy()
     {
         Wayland.wl_proxy_marshal(proxy, 0);
         Wayland.wl_proxy_destroy(proxy);
     }
-    public void set_position(int32 x, int32 y)
+    public void SetPosition(int32 x, int32 y)
     {
         Wayland.wl_proxy_marshal(proxy, 1, x, y);
     }
-    public void place_above(wl_object* sibling)
+    public void PlaceAbove(wl_object* sibling)
     {
         Wayland.wl_proxy_marshal(proxy, 2, sibling);
     }
-    public void place_below(wl_object* sibling)
+    public void PlaceBelow(wl_object* sibling)
     {
         Wayland.wl_proxy_marshal(proxy, 3, sibling);
     }
-    public void set_sync()
+    public void SetSync()
     {
         Wayland.wl_proxy_marshal(proxy, 4);
     }
-    public void set_desync()
+    public void SetDesync()
     {
         Wayland.wl_proxy_marshal(proxy, 5);
     }
-    public enum error
+    public enum Error
     {
         BadSurface = 0,
     }
@@ -1371,6 +1385,7 @@ public struct wl_fixes
     
     private static wl_interface*[1] destroy_registry_message_types = .(&wl_registry.Interface);
 
+    
     wl_proxy* proxy;
     public this(wl_proxy* proxy)
     {
@@ -1381,14 +1396,13 @@ public struct wl_fixes
     public void   SetUserData(void* userData) => Wayland.wl_proxy_set_user_data(proxy, userData);
     public void*  GetUserData()               => Wayland.wl_proxy_get_user_data(proxy);
     public uint32 GetVersion()                => Wayland.wl_proxy_get_version(proxy);
-    public void   Destroy()                   => Wayland.wl_proxy_destroy(proxy);
 
-    public void destroy()
+    public void Destroy()
     {
         Wayland.wl_proxy_marshal(proxy, 0);
         Wayland.wl_proxy_destroy(proxy);
     }
-    public void destroy_registry(wl_object* registry)
+    public void DestroyRegistry(wl_object* registry)
     {
         Wayland.wl_proxy_marshal(proxy, 1, registry);
     }

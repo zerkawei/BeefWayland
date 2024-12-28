@@ -54,14 +54,17 @@ def beef_safe(str : str) -> str:
         return "_"+str
     else:
         return str
+    
+def beef_name(str : str) -> str:
+    return beef_safe(to_pascal(str))
 
 def to_pascal(str) -> str:
     return str.replace("_", " ").title().replace(" ", "")
 
 def build_enum(enum : Element) -> str:
-    out_text = f'    public enum {enum.attrib["name"]}\n    {{\n'
+    out_text = f'    public enum {beef_name(enum.attrib["name"])}\n    {{\n'
     for entry in enum.findall("entry"):
-        out_text += f'        {beef_safe(to_pascal(entry.attrib["name"]))} = {entry.attrib["value"]},\n'
+        out_text += f'        {beef_name(entry.attrib["name"])} = {entry.attrib["value"]},\n'
     out_text += "    }\n"
     return out_text
 
@@ -69,7 +72,7 @@ def build_event(event : Element, iface : Element) -> str:
     out_text = f'       public function void(void* data, {iface.attrib["name"]} {iface.attrib["name"]}'
     for arg in event.findall("arg"):
         out_text += f', {beef_type_of[arg.attrib["type"]]} {beef_safe(arg.attrib["name"])}'
-    out_text += f') {event.attrib["name"]};\n'
+    out_text += f') {beef_name(event.attrib["name"])};\n'
     return out_text
 
 def build_request(request : Element, opcode : int) -> str:
@@ -85,7 +88,7 @@ def build_request(request : Element, opcode : int) -> str:
         unspecified_constructor = True
     else:
         out_text += constructed.get("interface") + ' '
-    out_text += request.get('name') + '('
+    out_text += beef_name(request.get('name')) + '('
     
     first = True
     for arg in args:
@@ -145,6 +148,8 @@ def build_interface(iface : Element) -> str:
     events = iface.findall("event")
     requests = iface.findall("request")
     
+    destroyOverloaded = any(req.get("name") == "destroy" for req in requests)
+    
     def address_of(list, name):
         return f'&{iface.attrib["name"]}_{name}[0]' if len(list) > 0 else "null"
     
@@ -162,6 +167,7 @@ public struct {iface.attrib["name"]}
     
 {"".join(build_message_types(msg) for msg in requests)}
 {"".join(build_message_types(msg) for msg in events)}\
+    
     wl_proxy* proxy;
     public this(wl_proxy* proxy)
     {{
@@ -172,9 +178,11 @@ public struct {iface.attrib["name"]}
     public void   SetUserData(void* userData) => Wayland.wl_proxy_set_user_data(proxy, userData);
     public void*  GetUserData()               => Wayland.wl_proxy_get_user_data(proxy);
     public uint32 GetVersion()                => Wayland.wl_proxy_get_version(proxy);
-    public void   Destroy()                   => Wayland.wl_proxy_destroy(proxy);
-
 '''
+    if not destroyOverloaded:
+        out_text += "    public void   Destroy()                   => Wayland.wl_proxy_destroy(proxy);\n"
+    out_text += "\n"
+
     if len(events) > 0:
         out_text += '''\
     public int AddListener(Listener* listener, void* data) => Wayland.wl_proxy_add_listener(proxy, (.)listener, data);      
