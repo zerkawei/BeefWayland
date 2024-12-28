@@ -1,5 +1,5 @@
 FileVersion = 1
-Projects = {BeefWayland = {Path = "."}}
+Projects = {BeefWayland = {Path = "."}, WaylandTest = {Path = "WaylandTest"}}
 
 [Workspace]
-StartupProject = "BeefWayland"
+StartupProject = "WaylandTest"
