@@ -168,6 +168,7 @@ public struct {iface.attrib["name"]}
         this.proxy = proxy;
     }}
     
+    public bool   IsBound => proxy != null;
     public void   SetUserData(void* userData) => Wayland.wl_proxy_set_user_data(proxy, userData);
     public void*  GetUserData()               => Wayland.wl_proxy_get_user_data(proxy);
     public uint32 GetVersion()                => Wayland.wl_proxy_get_version(proxy);

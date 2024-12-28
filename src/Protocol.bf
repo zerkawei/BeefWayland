@@ -46,6 +46,7 @@ public struct wl_display
         this.proxy = proxy;
     }
     
+    public bool   IsBound => proxy != null;
     public void   SetUserData(void* userData) => Wayland.wl_proxy_set_user_data(proxy, userData);
     public void*  GetUserData()               => Wayland.wl_proxy_get_user_data(proxy);
     public uint32 GetVersion()                => Wayland.wl_proxy_get_version(proxy);
@@ -98,6 +99,7 @@ public struct wl_registry
         this.proxy = proxy;
     }
     
+    public bool   IsBound => proxy != null;
     public void   SetUserData(void* userData) => Wayland.wl_proxy_set_user_data(proxy, userData);
     public void*  GetUserData()               => Wayland.wl_proxy_get_user_data(proxy);
     public uint32 GetVersion()                => Wayland.wl_proxy_get_version(proxy);
@@ -135,6 +137,7 @@ public struct wl_callback
         this.proxy = proxy;
     }
     
+    public bool   IsBound => proxy != null;
     public void   SetUserData(void* userData) => Wayland.wl_proxy_set_user_data(proxy, userData);
     public void*  GetUserData()               => Wayland.wl_proxy_get_user_data(proxy);
     public uint32 GetVersion()                => Wayland.wl_proxy_get_version(proxy);
@@ -166,6 +169,7 @@ public struct wl_compositor
         this.proxy = proxy;
     }
     
+    public bool   IsBound => proxy != null;
     public void   SetUserData(void* userData) => Wayland.wl_proxy_set_user_data(proxy, userData);
     public void*  GetUserData()               => Wayland.wl_proxy_get_user_data(proxy);
     public uint32 GetVersion()                => Wayland.wl_proxy_get_version(proxy);
@@ -201,6 +205,7 @@ public struct wl_shm_pool
         this.proxy = proxy;
     }
     
+    public bool   IsBound => proxy != null;
     public void   SetUserData(void* userData) => Wayland.wl_proxy_set_user_data(proxy, userData);
     public void*  GetUserData()               => Wayland.wl_proxy_get_user_data(proxy);
     public uint32 GetVersion()                => Wayland.wl_proxy_get_version(proxy);
@@ -239,6 +244,7 @@ public struct wl_shm
         this.proxy = proxy;
     }
     
+    public bool   IsBound => proxy != null;
     public void   SetUserData(void* userData) => Wayland.wl_proxy_set_user_data(proxy, userData);
     public void*  GetUserData()               => Wayland.wl_proxy_get_user_data(proxy);
     public uint32 GetVersion()                => Wayland.wl_proxy_get_version(proxy);
@@ -411,6 +417,7 @@ public struct wl_buffer
         this.proxy = proxy;
     }
     
+    public bool   IsBound => proxy != null;
     public void   SetUserData(void* userData) => Wayland.wl_proxy_set_user_data(proxy, userData);
     public void*  GetUserData()               => Wayland.wl_proxy_get_user_data(proxy);
     public uint32 GetVersion()                => Wayland.wl_proxy_get_version(proxy);
@@ -451,6 +458,7 @@ public struct wl_data_offer
         this.proxy = proxy;
     }
     
+    public bool   IsBound => proxy != null;
     public void   SetUserData(void* userData) => Wayland.wl_proxy_set_user_data(proxy, userData);
     public void*  GetUserData()               => Wayland.wl_proxy_get_user_data(proxy);
     public uint32 GetVersion()                => Wayland.wl_proxy_get_version(proxy);
@@ -515,6 +523,7 @@ public struct wl_data_source
         this.proxy = proxy;
     }
     
+    public bool   IsBound => proxy != null;
     public void   SetUserData(void* userData) => Wayland.wl_proxy_set_user_data(proxy, userData);
     public void*  GetUserData()               => Wayland.wl_proxy_get_user_data(proxy);
     public uint32 GetVersion()                => Wayland.wl_proxy_get_version(proxy);
@@ -573,6 +582,7 @@ public struct wl_data_device
         this.proxy = proxy;
     }
     
+    public bool   IsBound => proxy != null;
     public void   SetUserData(void* userData) => Wayland.wl_proxy_set_user_data(proxy, userData);
     public void*  GetUserData()               => Wayland.wl_proxy_get_user_data(proxy);
     public uint32 GetVersion()                => Wayland.wl_proxy_get_version(proxy);
@@ -627,6 +637,7 @@ public struct wl_data_device_manager
         this.proxy = proxy;
     }
     
+    public bool   IsBound => proxy != null;
     public void   SetUserData(void* userData) => Wayland.wl_proxy_set_user_data(proxy, userData);
     public void*  GetUserData()               => Wayland.wl_proxy_get_user_data(proxy);
     public uint32 GetVersion()                => Wayland.wl_proxy_get_version(proxy);
@@ -668,6 +679,7 @@ public struct wl_shell
         this.proxy = proxy;
     }
     
+    public bool   IsBound => proxy != null;
     public void   SetUserData(void* userData) => Wayland.wl_proxy_set_user_data(proxy, userData);
     public void*  GetUserData()               => Wayland.wl_proxy_get_user_data(proxy);
     public uint32 GetVersion()                => Wayland.wl_proxy_get_version(proxy);
@@ -710,6 +722,7 @@ public struct wl_shell_surface
         this.proxy = proxy;
     }
     
+    public bool   IsBound => proxy != null;
     public void   SetUserData(void* userData) => Wayland.wl_proxy_set_user_data(proxy, userData);
     public void*  GetUserData()               => Wayland.wl_proxy_get_user_data(proxy);
     public uint32 GetVersion()                => Wayland.wl_proxy_get_version(proxy);
@@ -817,6 +830,7 @@ public struct wl_surface
         this.proxy = proxy;
     }
     
+    public bool   IsBound => proxy != null;
     public void   SetUserData(void* userData) => Wayland.wl_proxy_set_user_data(proxy, userData);
     public void*  GetUserData()               => Wayland.wl_proxy_get_user_data(proxy);
     public uint32 GetVersion()                => Wayland.wl_proxy_get_version(proxy);
@@ -909,6 +923,7 @@ public struct wl_seat
         this.proxy = proxy;
     }
     
+    public bool   IsBound => proxy != null;
     public void   SetUserData(void* userData) => Wayland.wl_proxy_set_user_data(proxy, userData);
     public void*  GetUserData()               => Wayland.wl_proxy_get_user_data(proxy);
     public uint32 GetVersion()                => Wayland.wl_proxy_get_version(proxy);
@@ -983,6 +998,7 @@ public struct wl_pointer
         this.proxy = proxy;
     }
     
+    public bool   IsBound => proxy != null;
     public void   SetUserData(void* userData) => Wayland.wl_proxy_set_user_data(proxy, userData);
     public void*  GetUserData()               => Wayland.wl_proxy_get_user_data(proxy);
     public uint32 GetVersion()                => Wayland.wl_proxy_get_version(proxy);
@@ -1063,6 +1079,7 @@ public struct wl_keyboard
         this.proxy = proxy;
     }
     
+    public bool   IsBound => proxy != null;
     public void   SetUserData(void* userData) => Wayland.wl_proxy_set_user_data(proxy, userData);
     public void*  GetUserData()               => Wayland.wl_proxy_get_user_data(proxy);
     public uint32 GetVersion()                => Wayland.wl_proxy_get_version(proxy);
@@ -1118,6 +1135,7 @@ public struct wl_touch
         this.proxy = proxy;
     }
     
+    public bool   IsBound => proxy != null;
     public void   SetUserData(void* userData) => Wayland.wl_proxy_set_user_data(proxy, userData);
     public void*  GetUserData()               => Wayland.wl_proxy_get_user_data(proxy);
     public uint32 GetVersion()                => Wayland.wl_proxy_get_version(proxy);
@@ -1163,6 +1181,7 @@ public struct wl_output
         this.proxy = proxy;
     }
     
+    public bool   IsBound => proxy != null;
     public void   SetUserData(void* userData) => Wayland.wl_proxy_set_user_data(proxy, userData);
     public void*  GetUserData()               => Wayland.wl_proxy_get_user_data(proxy);
     public uint32 GetVersion()                => Wayland.wl_proxy_get_version(proxy);
@@ -1229,6 +1248,7 @@ public struct wl_region
         this.proxy = proxy;
     }
     
+    public bool   IsBound => proxy != null;
     public void   SetUserData(void* userData) => Wayland.wl_proxy_set_user_data(proxy, userData);
     public void*  GetUserData()               => Wayland.wl_proxy_get_user_data(proxy);
     public uint32 GetVersion()                => Wayland.wl_proxy_get_version(proxy);
@@ -1264,6 +1284,7 @@ public struct wl_subcompositor
         this.proxy = proxy;
     }
     
+    public bool   IsBound => proxy != null;
     public void   SetUserData(void* userData) => Wayland.wl_proxy_set_user_data(proxy, userData);
     public void*  GetUserData()               => Wayland.wl_proxy_get_user_data(proxy);
     public uint32 GetVersion()                => Wayland.wl_proxy_get_version(proxy);
@@ -1304,6 +1325,7 @@ public struct wl_subsurface
         this.proxy = proxy;
     }
     
+    public bool   IsBound => proxy != null;
     public void   SetUserData(void* userData) => Wayland.wl_proxy_set_user_data(proxy, userData);
     public void*  GetUserData()               => Wayland.wl_proxy_get_user_data(proxy);
     public uint32 GetVersion()                => Wayland.wl_proxy_get_version(proxy);
@@ -1355,6 +1377,7 @@ public struct wl_fixes
         this.proxy = proxy;
     }
     
+    public bool   IsBound => proxy != null;
     public void   SetUserData(void* userData) => Wayland.wl_proxy_set_user_data(proxy, userData);
     public void*  GetUserData()               => Wayland.wl_proxy_get_user_data(proxy);
     public uint32 GetVersion()                => Wayland.wl_proxy_get_version(proxy);
