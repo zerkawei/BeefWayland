@@ -2,16 +2,27 @@ import sys
 import xml.etree.ElementTree as ET
 from xml.etree.ElementTree import Element
 
-beef_type_of = {
-    "int": "int32",
-    "uint": "uint32",
-    "fixed": "wl_fixed_t",
-    "string": "char8*",
-    "object": "wl_object*",
-    "new_id": "uint32",
-    "array": "wl_array*",
-    "fd": "int32"
-}
+def beef_type_of(arg : Element) -> str:
+    iface = arg.get("interface")
+    match arg.get("type"):
+        case "int":
+            return "int32"
+        case "uint":
+            return "uint32"
+        case "fixed":
+            return "wl_fixed_t"
+        case "string":
+            return "char8*"
+        case "object":
+            if iface == None:
+                return "wl_object*"
+            return iface
+        case "new_id":
+            return "uint32"
+        case "array":
+            return "wl_array*"
+        case "fd":
+            return "int32"
 
 def char_type_of(arg : Element) -> str:
     type = "?" if arg.get("allow-null") == "true" else ""
@@ -71,7 +82,7 @@ def build_enum(enum : Element) -> str:
 def build_event(event : Element, iface : Element) -> str:
     out_text = f'       public function void(void* data, {iface.attrib["name"]} {iface.attrib["name"]}'
     for arg in event.findall("arg"):
-        out_text += f', {beef_type_of[arg.attrib["type"]]} {beef_safe(arg.attrib["name"])}'
+        out_text += f', {beef_type_of(arg)} {beef_safe(arg.attrib["name"])}'
     out_text += f') {beef_name(event.attrib["name"])};\n'
     return out_text
 
@@ -98,7 +109,7 @@ def build_request(request : Element, opcode : int) -> str:
             first = False
         else:
             out_text += ', '
-        out_text += f'{beef_type_of[arg.attrib["type"]]} {beef_safe(arg.attrib["name"])}'
+        out_text += f'{beef_type_of(arg)} {beef_safe(arg.attrib["name"])}'
     if unspecified_constructor:
         out_text += ', wl_interface* iface, uint32 version'   
     

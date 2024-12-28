@@ -2,9 +2,9 @@ using System;
 using Wayland;
 namespace Wayland;
 /*
-    Copyright © 2008-2011 Kristian Høgsberg
-    Copyright © 2010-2011 Intel Corporation
-    Copyright © 2012-2013 Collabora, Ltd.
+    Copyright Â© 2008-2011 Kristian HÃ¸gsberg
+    Copyright Â© 2010-2011 Intel Corporation
+    Copyright Â© 2012-2013 Collabora, Ltd.
 
     Permission is hereby granted, free of charge, to any person
     obtaining a copy of this software and associated documentation files
@@ -600,18 +600,18 @@ public struct wl_data_device
     public struct Listener
     {
        public function void(void* data, wl_data_device wl_data_device, uint32 id) DataOffer;
-       public function void(void* data, wl_data_device wl_data_device, uint32 serial, wl_object* surface, wl_fixed_t x, wl_fixed_t y, wl_object* id) Enter;
+       public function void(void* data, wl_data_device wl_data_device, uint32 serial, wl_surface surface, wl_fixed_t x, wl_fixed_t y, wl_data_offer id) Enter;
        public function void(void* data, wl_data_device wl_data_device) Leave;
        public function void(void* data, wl_data_device wl_data_device, uint32 time, wl_fixed_t x, wl_fixed_t y) Motion;
        public function void(void* data, wl_data_device wl_data_device) Drop;
-       public function void(void* data, wl_data_device wl_data_device, wl_object* id) Selection;
+       public function void(void* data, wl_data_device wl_data_device, wl_data_offer id) Selection;
     }
 
-    public void StartDrag(wl_object* source, wl_object* origin, wl_object* icon, uint32 serial)
+    public void StartDrag(wl_data_source source, wl_surface origin, wl_surface icon, uint32 serial)
     {
         Wayland.wl_proxy_marshal(proxy, 0, source, origin, icon, serial);
     }
-    public void SetSelection(wl_object* source, uint32 serial)
+    public void SetSelection(wl_data_source source, uint32 serial)
     {
         Wayland.wl_proxy_marshal(proxy, 1, source, serial);
     }
@@ -656,7 +656,7 @@ public struct wl_data_device_manager
         id = Wayland.wl_proxy_marshal_constructor(proxy, 0, &wl_data_source.Interface, null);
         return .(id);
     }
-    public wl_data_device GetDataDevice(wl_object* seat)
+    public wl_data_device GetDataDevice(wl_seat seat)
     {
         wl_proxy* id;
         id = Wayland.wl_proxy_marshal_constructor(proxy, 1, &wl_data_device.Interface, null, seat);
@@ -693,7 +693,7 @@ public struct wl_shell
     public uint32 GetVersion()                => Wayland.wl_proxy_get_version(proxy);
     public void   Destroy()                   => Wayland.wl_proxy_destroy(proxy);
 
-    public wl_shell_surface GetShellSurface(wl_object* surface)
+    public wl_shell_surface GetShellSurface(wl_surface surface)
     {
         wl_proxy* id;
         id = Wayland.wl_proxy_marshal_constructor(proxy, 0, &wl_shell_surface.Interface, null, surface);
@@ -751,11 +751,11 @@ public struct wl_shell_surface
     {
         Wayland.wl_proxy_marshal(proxy, 0, serial);
     }
-    public void Move(wl_object* seat, uint32 serial)
+    public void Move(wl_seat seat, uint32 serial)
     {
         Wayland.wl_proxy_marshal(proxy, 1, seat, serial);
     }
-    public void Resize(wl_object* seat, uint32 serial, uint32 edges)
+    public void Resize(wl_seat seat, uint32 serial, uint32 edges)
     {
         Wayland.wl_proxy_marshal(proxy, 2, seat, serial, edges);
     }
@@ -763,19 +763,19 @@ public struct wl_shell_surface
     {
         Wayland.wl_proxy_marshal(proxy, 3);
     }
-    public void SetTransient(wl_object* parent, int32 x, int32 y, uint32 flags)
+    public void SetTransient(wl_surface parent, int32 x, int32 y, uint32 flags)
     {
         Wayland.wl_proxy_marshal(proxy, 4, parent, x, y, flags);
     }
-    public void SetFullscreen(uint32 method, uint32 framerate, wl_object* output)
+    public void SetFullscreen(uint32 method, uint32 framerate, wl_output output)
     {
         Wayland.wl_proxy_marshal(proxy, 5, method, framerate, output);
     }
-    public void SetPopup(wl_object* seat, uint32 serial, wl_object* parent, int32 x, int32 y, uint32 flags)
+    public void SetPopup(wl_seat seat, uint32 serial, wl_surface parent, int32 x, int32 y, uint32 flags)
     {
         Wayland.wl_proxy_marshal(proxy, 6, seat, serial, parent, x, y, flags);
     }
-    public void SetMaximized(wl_object* output)
+    public void SetMaximized(wl_output output)
     {
         Wayland.wl_proxy_marshal(proxy, 7, output);
     }
@@ -850,8 +850,8 @@ public struct wl_surface
     [CRepr]
     public struct Listener
     {
-       public function void(void* data, wl_surface wl_surface, wl_object* output) Enter;
-       public function void(void* data, wl_surface wl_surface, wl_object* output) Leave;
+       public function void(void* data, wl_surface wl_surface, wl_output output) Enter;
+       public function void(void* data, wl_surface wl_surface, wl_output output) Leave;
        public function void(void* data, wl_surface wl_surface, int32 factor) PreferredBufferScale;
        public function void(void* data, wl_surface wl_surface, uint32 transform) PreferredBufferTransform;
     }
@@ -861,7 +861,7 @@ public struct wl_surface
         Wayland.wl_proxy_marshal(proxy, 0);
         Wayland.wl_proxy_destroy(proxy);
     }
-    public void Attach(wl_object* buffer, int32 x, int32 y)
+    public void Attach(wl_buffer buffer, int32 x, int32 y)
     {
         Wayland.wl_proxy_marshal(proxy, 1, buffer, x, y);
     }
@@ -875,11 +875,11 @@ public struct wl_surface
         id = Wayland.wl_proxy_marshal_constructor(proxy, 3, &wl_callback.Interface, null);
         return .(id);
     }
-    public void SetOpaqueRegion(wl_object* region)
+    public void SetOpaqueRegion(wl_region region)
     {
         Wayland.wl_proxy_marshal(proxy, 4, region);
     }
-    public void SetInputRegion(wl_object* region)
+    public void SetInputRegion(wl_region region)
     {
         Wayland.wl_proxy_marshal(proxy, 5, region);
     }
@@ -1020,8 +1020,8 @@ public struct wl_pointer
     [CRepr]
     public struct Listener
     {
-       public function void(void* data, wl_pointer wl_pointer, uint32 serial, wl_object* surface, wl_fixed_t surface_x, wl_fixed_t surface_y) Enter;
-       public function void(void* data, wl_pointer wl_pointer, uint32 serial, wl_object* surface) Leave;
+       public function void(void* data, wl_pointer wl_pointer, uint32 serial, wl_surface surface, wl_fixed_t surface_x, wl_fixed_t surface_y) Enter;
+       public function void(void* data, wl_pointer wl_pointer, uint32 serial, wl_surface surface) Leave;
        public function void(void* data, wl_pointer wl_pointer, uint32 time, wl_fixed_t surface_x, wl_fixed_t surface_y) Motion;
        public function void(void* data, wl_pointer wl_pointer, uint32 serial, uint32 time, uint32 button, uint32 state) Button;
        public function void(void* data, wl_pointer wl_pointer, uint32 time, uint32 axis, wl_fixed_t value) Axis;
@@ -1033,7 +1033,7 @@ public struct wl_pointer
        public function void(void* data, wl_pointer wl_pointer, uint32 axis, uint32 direction) AxisRelativeDirection;
     }
 
-    public void SetCursor(uint32 serial, wl_object* surface, int32 hotspot_x, int32 hotspot_y)
+    public void SetCursor(uint32 serial, wl_surface surface, int32 hotspot_x, int32 hotspot_y)
     {
         Wayland.wl_proxy_marshal(proxy, 0, serial, surface, hotspot_x, hotspot_y);
     }
@@ -1103,8 +1103,8 @@ public struct wl_keyboard
     public struct Listener
     {
        public function void(void* data, wl_keyboard wl_keyboard, uint32 format, int32 fd, uint32 size) Keymap;
-       public function void(void* data, wl_keyboard wl_keyboard, uint32 serial, wl_object* surface, wl_array* keys) Enter;
-       public function void(void* data, wl_keyboard wl_keyboard, uint32 serial, wl_object* surface) Leave;
+       public function void(void* data, wl_keyboard wl_keyboard, uint32 serial, wl_surface surface, wl_array* keys) Enter;
+       public function void(void* data, wl_keyboard wl_keyboard, uint32 serial, wl_surface surface) Leave;
        public function void(void* data, wl_keyboard wl_keyboard, uint32 serial, uint32 time, uint32 key, uint32 state) Key;
        public function void(void* data, wl_keyboard wl_keyboard, uint32 serial, uint32 mods_depressed, uint32 mods_latched, uint32 mods_locked, uint32 group) Modifiers;
        public function void(void* data, wl_keyboard wl_keyboard, int32 rate, int32 delay) RepeatInfo;
@@ -1159,7 +1159,7 @@ public struct wl_touch
     [CRepr]
     public struct Listener
     {
-       public function void(void* data, wl_touch wl_touch, uint32 serial, uint32 time, wl_object* surface, int32 id, wl_fixed_t x, wl_fixed_t y) Down;
+       public function void(void* data, wl_touch wl_touch, uint32 serial, uint32 time, wl_surface surface, int32 id, wl_fixed_t x, wl_fixed_t y) Down;
        public function void(void* data, wl_touch wl_touch, uint32 serial, uint32 time, int32 id) Up;
        public function void(void* data, wl_touch wl_touch, uint32 time, int32 id, wl_fixed_t x, wl_fixed_t y) Motion;
        public function void(void* data, wl_touch wl_touch) Frame;
@@ -1309,7 +1309,7 @@ public struct wl_subcompositor
         Wayland.wl_proxy_marshal(proxy, 0);
         Wayland.wl_proxy_destroy(proxy);
     }
-    public wl_subsurface GetSubsurface(wl_object* surface, wl_object* parent)
+    public wl_subsurface GetSubsurface(wl_surface surface, wl_surface parent)
     {
         wl_proxy* id;
         id = Wayland.wl_proxy_marshal_constructor(proxy, 1, &wl_subsurface.Interface, null, surface, parent);
@@ -1354,11 +1354,11 @@ public struct wl_subsurface
     {
         Wayland.wl_proxy_marshal(proxy, 1, x, y);
     }
-    public void PlaceAbove(wl_object* sibling)
+    public void PlaceAbove(wl_surface sibling)
     {
         Wayland.wl_proxy_marshal(proxy, 2, sibling);
     }
-    public void PlaceBelow(wl_object* sibling)
+    public void PlaceBelow(wl_surface sibling)
     {
         Wayland.wl_proxy_marshal(proxy, 3, sibling);
     }
@@ -1402,7 +1402,7 @@ public struct wl_fixes
         Wayland.wl_proxy_marshal(proxy, 0);
         Wayland.wl_proxy_destroy(proxy);
     }
-    public void DestroyRegistry(wl_object* registry)
+    public void DestroyRegistry(wl_registry registry)
     {
         Wayland.wl_proxy_marshal(proxy, 1, registry);
     }
