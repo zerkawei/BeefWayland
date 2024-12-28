@@ -12,37 +12,37 @@ public class Program
     {
         if(StringView(iface) == "wl_compositor")
         {
-            compositor = .((.)registry.bind(id, &wl_compositor.Interface, version));
+            compositor = .((.)registry.Bind(id, &wl_compositor.Interface, version));
         }
     }
 
     static void RegistryGlobalRemoveHandler(void* data, wl_registry registry, uint32 id) {}
 
     static wl_registry.Listener registry_listener = .{
-        global = => RegistryGlobalHandler,
-        global_remove = => RegistryGlobalRemoveHandler
+        Global = => RegistryGlobalHandler,
+        GlobalRemove = => RegistryGlobalRemoveHandler
     };
 
     public static void Main()
     {
-        display = Wayland.wl_display_connect(null);
+        display = wl_display.Connect(null);
         if(!display.IsBound)
         {
             Console.WriteLine("Failed to connect to display.");
             return;
         }
 
-        registry = display.get_registry();
+        registry = display.GetRegistry();
         registry.AddListener(&registry_listener, null);
         
-        Wayland.wl_display_dispatch(display);
-        Wayland.wl_display_roundtrip(display);
+        display.Dispatch();
+        display.Roundtrip();
         
         if(!compositor.IsBound)
         {
             Console.WriteLine("Can't find compositor.");
         }
 
-        Wayland.wl_display_disconnect(display);
+        display.Disconnect();
     }
 }

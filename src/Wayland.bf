@@ -87,6 +87,30 @@ public enum wl_iterator_result
 public struct wl_proxy;
 public struct wl_event_queue;
 
+public extension wl_display
+{
+	public static Self Connect(char8* name)  => Wayland.wl_display_connect(name);
+	public static Self ConnectToFD(int32 fd) => Wayland.wl_display_connect_to_fd(fd);
+
+	public void Disconnect() => Wayland.wl_display_disconnect(this);
+	public int32 GetFD() => Wayland.wl_display_get_fd(this);
+	public int32 Dispatch() => Wayland.wl_display_dispatch(this);
+	public int32 DispatchQueue(wl_event_queue *queue) => Wayland.wl_display_dispatch_queue(this, queue);
+	public int32 DispatchQueuePending(wl_event_queue *queue) => Wayland.wl_display_dispatch_queue_pending(this, queue);
+	public int32 DispatchPending() => Wayland.wl_display_dispatch_pending(this);
+	public int32 GetError() => Wayland.wl_display_get_error(this);
+	public uint32 GetProtocolError(wl_interface **iface, uint32 *id) => Wayland.wl_display_get_protocol_error(this, iface, id);
+	public int32 Flush() => Wayland.wl_display_flush(this);
+	public int32 RoundtripQueue(wl_event_queue *queue) => Wayland.wl_display_roundtrip_queue(this, queue);
+	public int32 Roundtrip() => Wayland.wl_display_roundtrip(this);
+	public wl_event_queue* CreateQueue() => Wayland.wl_display_create_queue(this);
+	public wl_event_queue* CreateQueueWithName(char8 *name) => Wayland.wl_display_create_queue_with_name(this, name);
+	public int32 PrepareReadQueue(wl_event_queue *queue) => Wayland.wl_display_prepare_read_queue(this, queue);
+	public int32 PrepareRead() => Wayland.wl_display_prepare_read(this);
+	public void CancelRead() => Wayland.wl_display_cancel_read(this);
+	public int32 ReadEvents() => Wayland.wl_display_read_events(this);
+	public void SetMaxBufferSize(c_size max_buffer_size) => Wayland.wl_display_set_max_buffer_size(this, max_buffer_size);
+}
 
 class Wayland
 {
@@ -176,7 +200,7 @@ class Wayland
 	[Import("wayland-client.so"), CLink]
 	public static extern wl_display wl_display_connect(char8 *name);
 	[Import("wayland-client.so"), CLink]
-	public static extern wl_display wl_display_connect_to_fd(int fd);
+	public static extern wl_display wl_display_connect_to_fd(int32 fd);
 	[Import("wayland-client.so"), CLink]
 	public static extern void wl_display_disconnect(wl_display display);
 	[Import("wayland-client.so"), CLink]
