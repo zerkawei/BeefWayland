@@ -27,6 +27,8 @@ def char_type_of(arg : Element) -> str:
         case "object":
             type += 'o'
         case "new_id":
+            if arg.get("interface") == None:
+                type += 'su'
             type += 'n'
         case "array":
             type += 'a'

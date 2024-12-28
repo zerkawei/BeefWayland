@@ -85,7 +85,7 @@ public struct wl_registry
 {
     public static wl_interface Interface = .("wl_registry", 1, 1, &wl_registry_requests[0], 2, &wl_registry_events[0]);
     
-    private static wl_message[1] wl_registry_requests = .(.("bind", "un", &bind_message_types[0]));
+    private static wl_message[1] wl_registry_requests = .(.("bind", "usun", &bind_message_types[0]));
     private static wl_message[2] wl_registry_events = .(.("global", "usu", &global_message_types[0]), .("global_remove", "u", &global_remove_message_types[0]));
     
     private static wl_interface*[2] bind_message_types = .(null, null);
